@@ -17,7 +17,7 @@ class ParserStorage implements StorageInterface
     {
     }
 
-    public function checkTableExists(string $tableName): void
+    public function checkTableExists(?string $tableName = null): void
     {
         $stmt = $this->connection->prepare(
             "SELECT COUNT(*) FROM information_schema.tables 
@@ -27,7 +27,7 @@ class ParserStorage implements StorageInterface
         $result = (int) $stmt->fetchColumn() > 0;
 
         if (!$result) {
-            (new ContentTableMigration($this->connection, StorageInterface::TABLE_NAME))->up();
+            (new ContentTableMigration($this->connection, $tableName?? StorageInterface::TABLE_NAME))->up();
         }
     }
 
