@@ -28,17 +28,13 @@ Run the migration to create the table into which data will be imported:
 (new ContentTableMigration($pdo, 'table_name'))->up();
 ```
 
-Usage in a controller:
+Usage in a Service class with default:
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-use XMLToDB\XmlParser\Connection\PareserRepository;
-use XMLToDB\XmlParser\Connection\ParserStorage;
-use XMLToDB\XmlParser\Parser\XmlParser;
-use XMLToDB\XmlParser\Database\Migration\ContentTableMigration;
 use XMLToDB\XmlParser\Service\ReedContentToDB;
 
 class ImportToDB
@@ -46,18 +42,12 @@ class ImportToDB
     public static function reedData(): ParseResult 
     {
         $pdo = new PDO('mysql:host=localhost;dbname=my_database', 'root', '');
-        $tableName = 'xml_data';
-
-        $storage = new ParserStorage($pdo);
-        $repository = new PareserRepository($pdo);
-        $parser = new XmlParser();
+        $filePath = 'dataProvider.xml';
         $pattern = '/(<trip[^>]*>[\s\S]*?<\/trip>)/si';
     
-        return (new ReedContentToDB(
-            $storage,
-            $repository,
-            $parser,
-        ))->reed($filePath, $pattern, $tableName);
+        return (new ReedContentToDB($pdo))->reed($filePath, $pattern);
     }
 }
 ```
+
+Repository, Storage, Parser and table name could be changed.

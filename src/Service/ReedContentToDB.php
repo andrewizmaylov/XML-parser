@@ -4,32 +4,44 @@ declare(strict_types=1);
 
 namespace XMLToDB\XmlParser\Service;
 
+use PDO;
 use XMLToDB\XmlParser\Connection\Contracts\RepositoryInterface;
 use XMLToDB\XmlParser\Connection\Contracts\StorageInterface;
+use XMLToDB\XmlParser\Connection\PareserRepository;
+use XMLToDB\XmlParser\Connection\ParserStorage;
 use XMLToDB\XmlParser\Parser\Contracts\ParserInterface;
+use XMLToDB\XmlParser\Parser\XmlParser;
 use XMLToDB\XmlParser\Result\ParseResult;
 
 readonly class ReedContentToDB
 {
+    private StorageInterface $storage;
+    private RepositoryInterface $repository;
+    private ParserInterface $parser;
+
     public function __construct(
-        private StorageInterface $storage,
-        private RepositoryInterface $repository,
-        private ParserInterface $parser,
+        public PDO $connection,
+        ?StorageInterface $storage = null,
+        ?RepositoryInterface $repository = null,
+        ?ParserInterface $parser = null,
     )
     {
+        $this->storage = $storage ?? new ParserStorage($this->connection);
+        $this->repository = $repository ?? new PareserRepository($this->connection);
+        $this->parser = $parser ?? new XmlParser();
     }
 
-    public function reed(string $filePath, string $pattern, string $tableName): ParseResult
+    public function reed(string $filePath, string $pattern, ?string $table = null): ParseResult
     {
         set_time_limit(0);
 
         $startTime = microtime(true);
         $recordsAdded = 0;
 
+        $tableName = $table ?? StorageInterface::TABLE_NAME;
+
         try {
-            if (!$this->storage->tableExists($tableName)) {
-                return ParseResult::error(404, "Table '{$tableName}' does not exist", 0, 0);
-            }
+            $this->storage->checkTableExists($tableName);
 
             $sourceFile = pathinfo($filePath, PATHINFO_BASENAME);
 
@@ -48,9 +60,11 @@ readonly class ReedContentToDB
             }
 
             $elapsed = microtime(true) - $startTime;
+
             return ParseResult::success($recordsAdded, $elapsed);
         } catch (\Throwable $e) {
             $elapsed = microtime(true) - $startTime;
+
             return ParseResult::error(500, $e->getMessage(), $elapsed, $recordsAdded);
         }
     }

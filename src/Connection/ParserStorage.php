@@ -7,6 +7,7 @@ namespace XMLToDB\XmlParser\Connection;
 use XMLToDB\XmlParser\Connection\Contracts\StorageInterface;
 use PDO;
 use PDOException;
+use XMLToDB\XmlParser\Database\Migration\ContentTableMigration;
 
 class ParserStorage implements StorageInterface
 {
@@ -16,14 +17,18 @@ class ParserStorage implements StorageInterface
     {
     }
 
-    public function tableExists(string $tableName): bool
+    public function checkTableExists(string $tableName): void
     {
         $stmt = $this->connection->prepare(
             "SELECT COUNT(*) FROM information_schema.tables 
              WHERE table_schema = DATABASE() AND table_name = ?"
         );
         $stmt->execute([$tableName]);
-        return (int) $stmt->fetchColumn() > 0;
+        $result = (int) $stmt->fetchColumn() > 0;
+
+        if (!$result) {
+            (new ContentTableMigration($this->connection, StorageInterface::TABLE_NAME))->up();
+        }
     }
 
     public function upsertMany(array $data, string $tableName, string $source): void
