@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XMLToDB\XmlParser\Parser;
 
+use Monolog\Logger;
 use XMLToDB\XmlParser\Exceptions\ParserException;
 use XMLToDB\XmlParser\Parser\Contracts\ParserInterface;
 use Psr\Log\LoggerInterface;
@@ -19,10 +20,11 @@ abstract class AbstractParser implements ParserInterface
 
     protected int|false $fileSize;
 
-    public function __construct(
-        protected readonly LoggerInterface $logger,
-    )
+    protected LoggerInterface $logger;
+
+    public function __construct(?LoggerInterface $logger = null)
     {
+        $this->logger = $logger ?? new Logger('xmlToDB');
     }
 
     /**

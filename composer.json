@@ -1,6 +1,7 @@
 {
     "name": "andreyizmaylov/xml-parser",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "XMLToDB\\XmlParser\\": "src/"
