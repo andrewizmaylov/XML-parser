@@ -21,7 +21,7 @@ class PareserRepository implements RepositoryInterface
     public function getLatestRecord(string $tableName): ?ParsedEntity
     {
         try {
-            $sql = <<<'STATMENT'
+            $sql = <<<STATMENT
                 "SELECT * FROM {$tableName}" 
                 WHERE created_at >= :today 
                 AND created_at < :today + INTERVAL 1 DAY

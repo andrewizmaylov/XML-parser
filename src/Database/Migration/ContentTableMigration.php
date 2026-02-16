@@ -17,7 +17,7 @@ class ContentTableMigration
 
     public function up(): void
     {
-        $sql = <<<'STATMENT'
+        $sql = <<<STATMENT
         "CREATE TABLE IF NOT EXISTS {$this->tableName} (
             `id` INT NOT NULL AUTO_INCREMENT,
             `content` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
@@ -35,7 +35,7 @@ class ContentTableMigration
 
     public function down(): void
     {
-        $sql = <<<'STATMENT'
+        $sql = <<<STATMENT
             "DROP TABLE IF EXISTS {$this->tableName};"
         STATMENT;
 

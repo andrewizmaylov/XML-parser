@@ -40,7 +40,7 @@ class ParserStorage implements StorageInterface
             }
 
             $sql = sprintf(
-                <<< 'STATMENT'
+                <<< STATMENT
                 "INSERT INTO {$tableName} (content, startPosition, endPosition) VALUES %s"
                 STATMENT,
                 implode(', ', $placeholders)
