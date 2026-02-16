@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Service;
+namespace XMLToDB\XmlParser\Service;
 
-use AndreyIzmaylov\XmlParser\Connection\Contracts\RepositoryInterface;
-use AndreyIzmaylov\XmlParser\Connection\Contracts\StorageInterface;
-use AndreyIzmaylov\XmlParser\Parser\Contracts\ParserInterface;
+use XMLToDB\XmlParser\Connection\Contracts\RepositoryInterface;
+use XMLToDB\XmlParser\Connection\Contracts\StorageInterface;
+use XMLToDB\XmlParser\Parser\Contracts\ParserInterface;
 
 readonly class ReedContentToDB
 {

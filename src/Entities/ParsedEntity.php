@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Entities;
+namespace XMLToDB\XmlParser\Entities;
 
 readonly class ParsedEntity
 {

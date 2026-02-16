@@ -1,9 +1,9 @@
 <?php
 
-namespace AndreyIzmaylov\XmlParser\Connection\Contracts;
+namespace XMLToDB\XmlParser\Connection\Contracts;
 
 
-use AndreyIzmaylov\XmlParser\Entities\ParsedEntity;
+use XMLToDB\XmlParser\Entities\ParsedEntity;
 
 interface RepositoryInterface
 {

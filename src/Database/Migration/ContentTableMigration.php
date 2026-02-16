@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Database\Migration;
+namespace XMLToDB\XmlParser\Database\Migration;
 
 use PDO;
 

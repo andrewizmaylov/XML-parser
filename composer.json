@@ -3,7 +3,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "AndreyIzmaylov\\XmlParser\\": "src/"
+            "XMLToDB\\XmlParser\\": "src/"
         }
     },
     "authors": [

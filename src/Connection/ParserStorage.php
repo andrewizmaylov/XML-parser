@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Connection;
+namespace XMLToDB\XmlParser\Connection;
 
-use AndreyIzmaylov\XmlParser\Connection\Contracts\StorageInterface;
+use XMLToDB\XmlParser\Connection\Contracts\StorageInterface;
 use PDO;
 use PDOException;
 

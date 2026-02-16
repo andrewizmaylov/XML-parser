@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Parser;
+namespace XMLToDB\XmlParser\Parser;
 
 
-use AndreyIzmaylov\XmlParser\Exceptions\ParserException;
+use XMLToDB\XmlParser\Exceptions\ParserException;
 use Generator;
 
 class XmlParser extends AbstractParser

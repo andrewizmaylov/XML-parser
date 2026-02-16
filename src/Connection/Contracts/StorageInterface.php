@@ -1,6 +1,6 @@
 <?php
 
-namespace AndreyIzmaylov\XmlParser\Connection\Contracts;
+namespace XMLToDB\XmlParser\Connection\Contracts;
 
 interface StorageInterface
 {

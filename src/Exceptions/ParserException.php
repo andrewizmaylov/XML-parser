@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Exceptions;
+namespace XMLToDB\XmlParser\Exceptions;
 
 use Exception;
 

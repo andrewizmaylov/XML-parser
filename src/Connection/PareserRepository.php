@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AndreyIzmaylov\XmlParser\Connection;
+namespace XMLToDB\XmlParser\Connection;
 
 
-use AndreyIzmaylov\XmlParser\Connection\Contracts\RepositoryInterface;
-use AndreyIzmaylov\XmlParser\Entities\ParsedEntity;
+use XMLToDB\XmlParser\Connection\Contracts\RepositoryInterface;
+use XMLToDB\XmlParser\Entities\ParsedEntity;
 use PDO;
 use PDOException;
 

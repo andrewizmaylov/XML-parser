@@ -1,6 +1,6 @@
 <?php
 
-namespace AndreyIzmaylov\XmlParser\Parser\Contracts;
+namespace XMLToDB\XmlParser\Parser\Contracts;
 
 use Generator;
 
