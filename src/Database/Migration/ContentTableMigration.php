@@ -17,8 +17,8 @@ class ContentTableMigration
 
     public function up(): void
     {
-        $sql = <<<STATMENT
-        "CREATE TABLE IF NOT EXISTS {$this->tableName} (
+        $sql = <<<'STATMENT'
+        "CREATE TABLE IF NOT EXISTS %s (
             `id` INT NOT NULL AUTO_INCREMENT,
             `content` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
             `startPosition` INT UNSIGNED NOT NULL,
@@ -30,16 +30,16 @@ class ContentTableMigration
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
         STATMENT;
 
-        $this->execute($sql);
+        $this->execute(sprintf($sql, $this->tableName));
     }
 
     public function down(): void
     {
-        $sql = <<<STATMENT
-            "DROP TABLE IF EXISTS {$this->tableName};"
+        $sql = <<<'STATMENT'
+            "DROP TABLE IF EXISTS %s;"
         STATMENT;
 
-        $this->execute($sql);
+        $this->execute(sprintf($sql, $this->tableName));
     }
 
     protected function execute(string $sql, array $params = []): void

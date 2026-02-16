@@ -21,15 +21,15 @@ class PareserRepository implements RepositoryInterface
     public function getLatestRecord(string $tableName): ?ParsedEntity
     {
         try {
-            $sql = <<<STATMENT
-                "SELECT * FROM {$tableName}" 
+            $sql = <<<'STATMENT'
+                "SELECT * FROM %s 
                 WHERE created_at >= :today 
                 AND created_at < :today + INTERVAL 1 DAY
                 ORDER BY endPosition DESC 
                 LIMIT 1"
             STATMENT;
 
-            $stmt = $this->connection->prepare($sql);
+            $stmt = $this->connection->prepare(sprintf($sql, $tableName));
             $stmt->execute([':today' => date('Y-m-d')]);
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);

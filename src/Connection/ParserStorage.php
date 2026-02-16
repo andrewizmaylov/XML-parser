@@ -40,11 +40,10 @@ class ParserStorage implements StorageInterface
             }
 
             $sql = sprintf(
-                <<< STATMENT
-                "INSERT INTO {$tableName} (content, startPosition, endPosition) VALUES %s"
-                STATMENT,
+                "INSERT INTO TABLE_NAME (content, startPosition, endPosition) VALUES %s",
                 implode(', ', $placeholders)
             );
+            $sql = str_replace('TABLE_NAME', $tableName, $sql);
 
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($values);
