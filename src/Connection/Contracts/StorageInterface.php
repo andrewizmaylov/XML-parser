@@ -4,5 +4,7 @@ namespace XMLToDB\XmlParser\Connection\Contracts;
 
 interface StorageInterface
 {
-    public function upsertMany(array $data, string $tableName): void;
+    public function tableExists(string $tableName): bool;
+
+    public function upsertMany(array $data, string $tableName, string $source): void;
 }

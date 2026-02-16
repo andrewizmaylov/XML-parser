@@ -7,5 +7,5 @@ use XMLToDB\XmlParser\Entities\ParsedEntity;
 
 interface RepositoryInterface
 {
-    public function getLatestRecord(string $tableName): ?ParsedEntity;
+    public function getLatestRecord(string $tableName, string $source): ?ParsedEntity;
 }

@@ -16,7 +16,17 @@ class ParserStorage implements StorageInterface
     {
     }
 
-    public function upsertMany(array $data, string $tableName): void
+    public function tableExists(string $tableName): bool
+    {
+        $stmt = $this->connection->prepare(
+            "SELECT COUNT(*) FROM information_schema.tables 
+             WHERE table_schema = DATABASE() AND table_name = ?"
+        );
+        $stmt->execute([$tableName]);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
+    public function upsertMany(array $data, string $tableName, string $source): void
     {
         if (empty($data)) {
             return;
@@ -26,9 +36,9 @@ class ParserStorage implements StorageInterface
             // Data prepare
             $values = [];
             $rowCount = count($data);
-            $colCount = 3; // content, startPosition, endPosition
+            $colCount = 4; // content, startPosition, endPosition, source
 
-            // Create Placeholders: (?, ?, ?), (?, ?, ?), ...
+            // Create Placeholders: (?, ?, ?, ?), (?, ?, ?, ?), ...
             $rowPlaceholder = '(' . implode(', ', array_fill(0, $colCount, '?')) . ')';
             $placeholders = array_fill(0, $rowCount, $rowPlaceholder);
 
@@ -37,10 +47,11 @@ class ParserStorage implements StorageInterface
                 $values[] = $row['content'];
                 $values[] = $row['startPosition'];
                 $values[] = $row['endPosition'];
+                $values[] = $source;
             }
 
             $sql = sprintf(
-                "INSERT INTO TABLE_NAME (content, startPosition, endPosition) VALUES %s",
+                "INSERT INTO TABLE_NAME (content, startPosition, endPosition, source) VALUES %s",
                 implode(', ', $placeholders)
             );
             $sql = str_replace('TABLE_NAME', $tableName, $sql);

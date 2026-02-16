@@ -44,17 +44,32 @@ class XmlParser extends AbstractParser
 
         $buffer = '';
         $position = $this->lastReadPosition;
+        $iterations = 0;
+        $maxIterations = (int) ceil($this->fileSize / self::CHUNK_SIZE) + 1000;
 
-        // Reed forward
-        while ($position < $this->fileSize) {
-            fseek($this->file, $position ?? 0);
+        // Read forward
+        while ($position < $this->fileSize && $iterations < $maxIterations) {
+            $iterations++;
+            $positionAtIterationStart = $position;
+            fseek($this->file, $position);
             $buffer .= fread($this->file, self::CHUNK_SIZE);
+            $bytesRead = strlen($buffer);
 
-            $this->appendDetectedMatches($buffer);
+            if ($bytesRead === 0) {
+                break;
+            }
 
-            $position = $this->bunch[count($this->bunch) - 1]['endPosition'];
+            $this->appendDetectedMatches($buffer, $position);
+
+            if ($this->bunch !== []) {
+                $position = $this->bunch[count($this->bunch) - 1]['endPosition'];
+            } else {
+                $position = $this->lastReadPosition;
+            }
+            if ($position <= $positionAtIterationStart) {
+                $position = min($positionAtIterationStart + $bytesRead, $this->fileSize);
+            }
             $buffer = '';
-
 
             if (count($this->bunch) >= self::BUNCH_SIZE) {
                 $detectedRecords = $this->bunch;
@@ -67,17 +82,25 @@ class XmlParser extends AbstractParser
             }
         }
 
+        if ($iterations >= $maxIterations) {
+            $this->logger->warning('[XmlParser]: Stopped after max iterations. Position: ' . $position . ', fileSize: ' . $this->fileSize);
+        }
+
+        if ($this->bunch !== []) {
+            yield $this->bunch;
+        }
+
         fclose($this->file);
     }
 
-    private function appendDetectedMatches(string $buffer): void
+    private function appendDetectedMatches(string $buffer, int $bufferStart): void
     {
-        $lastFoundedPosition = 0;
+        $lastFoundedPosition = $bufferStart + strlen($buffer);
 
         if (preg_match_all($this->pattern, $buffer, $allMatches, PREG_OFFSET_CAPTURE)) {
             foreach ($allMatches[0] as $match) {
                 if (isset($match[1])) {
-                    $position = $this->lastReadPosition + (int)$match[1];
+                    $position = $bufferStart + (int) $match[1];
                     $lastFoundedPosition = $position + strlen($match[0]);
 
                     $this->bunch[] = [

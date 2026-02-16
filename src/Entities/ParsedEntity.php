@@ -8,6 +8,7 @@ readonly class ParsedEntity
 {
     public function __construct(
         public string $content,
+        public string $source,
         public int $startPosition,
         public int $endPosition,
         public string $status,

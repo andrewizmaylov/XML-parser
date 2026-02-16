@@ -24,6 +24,7 @@ class ContentTableMigration
                 `startPosition` INT UNSIGNED NOT NULL,
                 `endPosition` INT UNSIGNED NOT NULL,
                 `status` ENUM('PROCESSED','PENDING','FAIL') NULL DEFAULT 'PENDING' COLLATE 'utf8mb4_unicode_ci',
+                `source` VARCHAR(255) NOT NULL,
                 `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
                 `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
                 PRIMARY KEY (`id`)
