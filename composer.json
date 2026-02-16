@@ -1,0 +1,19 @@
+{
+    "name": "andreyizmaylov/xml-parser",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "AndreyIzmaylov\\XmlParser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "andrewizmaylov",
+            "email": "andrew.izmaylov@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^3.10",
+	    "ext-pdo": "*"
+    }
+}
