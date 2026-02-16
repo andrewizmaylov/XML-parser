@@ -18,16 +18,16 @@ class ContentTableMigration
     public function up(): void
     {
         $sql = <<<'STATMENT'
-        "CREATE TABLE IF NOT EXISTS %s (
-            `id` INT NOT NULL AUTO_INCREMENT,
-            `content` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
-            `startPosition` INT UNSIGNED NOT NULL,
-            `endPosition` INT UNSIGNED NOT NULL,
-            `status` ENUM('PROCESSED','PENDING','FAIL') NULL DEFAULT 'PENDING' COLLATE 'utf8mb4_unicode_ci',
-            `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
-            `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+            CREATE TABLE IF NOT EXISTS %s (
+                `id` INT NOT NULL AUTO_INCREMENT,
+                `content` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
+                `startPosition` INT UNSIGNED NOT NULL,
+                `endPosition` INT UNSIGNED NOT NULL,
+                `status` ENUM('PROCESSED','PENDING','FAIL') NULL DEFAULT 'PENDING' COLLATE 'utf8mb4_unicode_ci',
+                `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
+                `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         STATMENT;
 
         $this->execute(sprintf($sql, $this->tableName));
@@ -36,7 +36,7 @@ class ContentTableMigration
     public function down(): void
     {
         $sql = <<<'STATMENT'
-            "DROP TABLE IF EXISTS %s;"
+            DROP TABLE IF EXISTS %s;
         STATMENT;
 
         $this->execute(sprintf($sql, $this->tableName));

@@ -22,11 +22,11 @@ class PareserRepository implements RepositoryInterface
     {
         try {
             $sql = <<<'STATMENT'
-                "SELECT * FROM %s 
+                SELECT * FROM %s 
                 WHERE created_at >= :today 
                 AND created_at < :today + INTERVAL 1 DAY
                 ORDER BY endPosition DESC 
-                LIMIT 1"
+                LIMIT 1
             STATMENT;
 
             $stmt = $this->connection->prepare(sprintf($sql, $tableName));
